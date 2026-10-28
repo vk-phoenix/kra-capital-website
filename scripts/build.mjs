@@ -1,0 +1,10 @@
+import { cp, mkdir, rm, readdir } from 'node:fs/promises';
+import { resolve } from 'node:path';
+const source = resolve('public');
+const destination = resolve('dist');
+await rm(destination, {recursive:true,force:true});
+await mkdir(destination,{recursive:true});
+await cp(source,destination,{recursive:true});
+const files = await readdir(destination);
+if (!files.includes('index.html') || !files.includes('styles.css') || !files.includes('main.js')) throw new Error('Missing required output file');
+console.log('Static build complete: dist/');
